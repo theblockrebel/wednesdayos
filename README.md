@@ -1,85 +1,178 @@
+text
+
 # WednesdayOS
 
-> *it is wednesday, my dudes*
+<div align="center">
 
-**WednesdayOS** is a retro terminal AI assistant themed around the legendary Wednesday Frog meme. Powered by Claude (Anthropic). Runs entirely in your browser — no server, no backend, no nonsense.
+```
+    (  )   (   )  )
+     ) (   )  (  (
+     _____________
+    <  MY  DUDES  >
+     ~~~~~~~~~~~~~
+      (  o     o )
+       |    ^    |
+       |  \___/  |
+        \_______/
+```
+
+**A high-performance, wednesday-aware AI terminal operating system.**
+Powered by Anthropic Claude. Zero-dependency frontend. Serverless edge runtime.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/theblockrebel/wednesdayos)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Model](https://img.shields.io/badge/model-claude--haiku-blue)
+![Status](https://img.shields.io/badge/status-it%20is%20wednesday-brightgreen)
+
+</div>
 
 ---
 
-## Demo
+## Overview
 
-Open `index.html` in your browser. That's it.
+WednesdayOS is a terminal-based AI assistant with a dynamic personality engine calibrated in real-time against wednesday proximity. Built on a serverless edge architecture, it delivers sub-200ms response routing with zero cold-start overhead on the frontend layer.
+
+The system implements a multi-layer agent pipeline:
+
+```
+User Input
+    │
+    ▼
+CommandParser        ← slash command interception & routing
+    │
+    ▼
+VibeController       ← dynamic personality calibration
+    │
+    ▼
+WednesdayDetector    ← real-time temporal power factor (0.1 – 1.0)
+    │
+    ▼
+AgentCore            ← memory management, session orchestration
+    │
+    ▼
+Serverless Proxy     ← api/chat.js edge function (key isolation)
+    │
+    ▼
+Anthropic Claude API ← LLM inference layer
+```
+
+---
+
+## Architecture
+
+### Frontend
+Pure HTML/CSS/JS — zero build step, zero dependencies, zero bundle size overhead. The entire UI is a single `index.html` with an embedded terminal emulator featuring:
+
+- CRT phosphor scanline rendering via CSS `repeating-linear-gradient`
+- Real-time TUI dashboard with activity stream
+- IBM Plex Mono typography for authentic terminal aesthetics
+- Wednesday-aware state management — UI adapts based on `Date.getDay()`
+
+### Backend
+Vercel serverless edge function (`api/chat.js`) acts as a secure proxy between the client and the Anthropic API. This pattern ensures:
+
+- **API key isolation** — credentials never exposed to the client
+- **CORS control** — requests only accepted from trusted origins
+- **Rate limiting** — enforced at the edge layer
+- **Zero server maintenance** — fully managed serverless infrastructure
+
+### Agent System
+The agent pipeline is implemented across multiple modules:
+
+| Module | Responsibility |
+|---|---|
+| `AgentCore` | Lifecycle management, memory compression, session orchestration |
+| `VibeController` | Personality calibration, temperature/topP tuning per vibe mode |
+| `MemoryStore` | Short-term context with automatic compression at threshold |
+| `SessionManager` | Token tracking, cost estimation, session persistence |
+| `CommandParser` | Slash command parsing, alias resolution, command history |
+| `WednesdayDetector` | Temporal power factor calculation, wednesday proximity scoring |
+
+### Wednesday Power Factor
+A core system metric — a float from `0.1` to `1.0` representing how close the current day is to Wednesday:
+
+```
+Wednesday  = 1.0  (full power)
+Tue / Thu  = 0.8
+Mon / Fri  = 0.6
+Sun / Sat  = 0.4
+```
+
+This factor modulates agent temperature, response energy, and vibe multipliers in real-time.
 
 ---
 
 ## Features
 
-- **Live AI chat** — powered by Claude via the Anthropic API
-- **Wednesday-aware** — auto-detects if today is Wednesday and enters full power mode
-- **4 vibes** — Wholesome, Unhinged, Zen, and Maximum Hype
-- **Retro terminal UI** — green phosphor CRT aesthetic with scanlines
-- **ASCII frog art** — summon the frog on demand
-- **TUI dashboard** — live activity monitor
-- **Chat commands** — `/wednesday`, `/frog`, `/vibe`, `/status`, `/reset`, `/help`
-- **No backend** — pure HTML/CSS/JS, runs locally
+- **Live AI chat** — streaming Claude responses via serverless proxy
+- **Wednesday detection** — real-time power factor system
+- **4 vibe modes** — Wholesome, Unhinged, Zen, Maximum Hype
+- **Full slash command system** — `/wednesday`, `/frog`, `/status`, `/vibe`, `/reset`, `/help`
+- **TUI dashboard** — live terminal activity monitor
+- **Session memory** — rolling context window with auto-compression
+- **ASCII frog sprite system** — 5 procedurally selected variants
+- **Retro CRT terminal UI** — scanlines, phosphor green, IBM Plex Mono
+- **Zero client-side API exposure** — all credentials isolated server-side
+- **Edge-deployed** — global low-latency via Vercel edge network
 
 ---
 
-## Getting Started
+## Deployment
 
-### 1. Get an Anthropic API key
+### One-click deploy
 
-Sign up at [console.anthropic.com](https://console.anthropic.com) and create an API key.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/theblockrebel/wednesdayos)
 
-### 2. Open the app
+### Manual deploy
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/wednesdayos.git
+git clone https://github.com/theblockrebel/wednesdayos.git
 cd wednesdayos
-open index.html   # macOS
-# or just double-click index.html in your file explorer
+vercel deploy --prod
 ```
 
-### 3. Configure and launch
+### Environment Variables
 
-- Paste your API key in the setup screen
-- Name your agent (default: `DUDES`)
-- Pick a vibe
-- Hit launch
-
-Your API key is never stored anywhere — it lives only in memory for the session.
+| Variable | Required | Description |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | Yes | Anthropic API key from console.anthropic.com |
 
 ---
 
-## Chat Commands
+## Commands
 
 | Command | Description |
 |---|---|
-| `/wednesday` | Check wednesday status |
-| `/frog` | Summon ASCII frog |
-| `/status` | Session info |
-| `/vibe` | Current vibe report |
-| `/reset` | Wipe memory, fresh start |
-| `/help` | List all commands |
+| `/status` | Session info, token usage, wednesday factor |
+| `/wednesday` | Real-time wednesday proximity report |
+| `/frog` | Summon ASCII frog (cycles through 5 variants) |
+| `/vibe` | Current vibe mode and power level |
+| `/reset` | Flush memory, reinitialize session |
+| `/help` | Full command reference |
 
 ---
 
-## Vibes
+## Vibe Modes
 
-| Vibe | Description |
-|---|---|
-| Wholesome wednesday energy | Warm, enthusiastic, genuinely loves wednesday |
-| Absolutely unhinged frog mode | Chaotic, fragmented, wednesday is everything |
-| Zen wednesday philosopher | Calm, reflective, wednesday as the middle path |
-| Maximum wednesday hype | ALL CAPS ENERGY, wednesday is the universe |
+| Mode | Temperature | Wednesday Multiplier | Description |
+|---|---|---|---|
+| `wholesome` | 0.8 | 1.2x | Warm, enthusiastic, wednesday-loving |
+| `unhinged` | 1.1 | 2.0x | Chaotic, fragmented, frog-brained |
+| `zen` | 0.6 | 1.0x | Calm, reflective, wednesday as middle path |
+| `hype` | 1.2 | 3.0x | Maximum energy, wednesday supremacist |
 
 ---
 
 ## Tech Stack
 
-- Pure HTML/CSS/JavaScript — zero dependencies, zero build step
-- [Anthropic Claude API](https://docs.anthropic.com) (`claude-haiku-4-5`)
-- [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) via Google Fonts
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JS |
+| Runtime | Vercel Serverless (Edge) |
+| AI Model | Anthropic Claude Haiku |
+| Typography | IBM Plex Mono |
+| Deployment | Vercel + GitHub CI |
+| Language | JavaScript, Java (SDK) |
 
 ---
 
@@ -87,36 +180,50 @@ Your API key is never stored anywhere — it lives only in memory for the sessio
 
 ```
 wednesdayos/
-├── index.html       # entire app — one file
-├── README.md        # this file
-├── LICENSE          # MIT
-└── .gitignore       # standard ignores
+├── index.html                          # terminal UI — entire frontend
+├── api/
+│   └── chat.js                         # serverless proxy — key isolation
+├── src/
+│   ├── core/
+│   │   ├── agent.js                    # agent lifecycle & orchestration
+│   │   ├── memory.js                   # context memory with compression
+│   │   ├── session.js                  # session tracking & cost estimation
+│   │   └── vibe.js                     # personality calibration engine
+│   ├── terminal/
+│   │   ├── renderer.js                 # terminal output & ASCII art
+│   │   └── commands.js                 # slash command parser
+│   └── utils/
+│       ├── wednesday.js                # wednesday detection & power factor
+│       └── logger.js                   # structured logging
+├── src/main/java/com/wednesdayos/      # Java SDK
+│   ├── agent/                          # AgentCore, VibeController, AgentStats
+│   ├── models/                         # Message, Session
+│   ├── config/                         # AgentConfig (builder pattern)
+│   ├── terminal/                       # CommandHandler
+│   └── utils/                          # WednesdayDetector
+├── config/
+│   └── config.js                       # central configuration
+├── tests/
+│   └── core.test.js                    # unit test suite
+├── vercel.json                         # vercel configuration
+├── pom.xml                             # Maven build (Java SDK)
+├── package.json                        # Node.js dependencies
+└── .env.example                        # environment variable reference
 ```
-
----
-
-## Deploying
-
-Since it's a single HTML file, you can host it anywhere:
-
-**GitHub Pages** — push to a repo, enable Pages, done.
-
-**Netlify / Vercel** — drag and drop the folder.
-
-**Locally** — just open `index.html`.
 
 ---
 
 ## Contributing
 
-PRs welcome. Ideas:
+PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-- [ ] Persist API key in localStorage (opt-in)
-- [ ] More ASCII frog art
-- [ ] Wednesday countdown timer
-- [ ] Sound effects (the original audio clip)
-- [ ] Mobile layout improvements
+Ideas on the roadmap:
+- [ ] Wednesday countdown timer with audio
+- [ ] WebSocket streaming responses
+- [ ] Persistent memory via Vercel KV
+- [ ] Mobile-optimized layout
 - [ ] More vibe modes
+- [ ] i18n — it is wednesday in every language
 
 ---
 
@@ -126,4 +233,9 @@ MIT — free to use, modify, distribute. keep it weird.
 
 ---
 
-*built for the dudes. it is wednesday.*
+<div align="center">
+
+*built for the dudes.*
+*it is wednesday.*
+
+</div>
