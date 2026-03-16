@@ -1,10 +1,6 @@
 /**
  * 🐸 Is It Wednesday? — Daily X Bot
  * Clone of @IsWednesdayDude
- *
- * - Monday → Tuesday: funny countdowns building hype
- * - Wednesday: FULL SEND 🐸
- * - Thursday → Sunday: sad/coping tweets counting down again
  */
 
 require("dotenv").config();
@@ -25,67 +21,45 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// ─── Tweet pools by day ───────────────────────────────────────────────────────
-// day: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-
 const TWEETS = {
-  // SUNDAY — far from Wednesday, existential dread
   0: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 3\n\nit's sunday. wednesday feels like a myth.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 3\n\nsunday. the wednesday is not here. it never was.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 3\n\nwe don't talk about what happened last wednesday. we wait for the next one.",
   ],
-
-  // MONDAY — suffering begins
   1: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 2\n\nmonday. this is not it. this is the opposite of it.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 2\n\nit's monday. wednesday is 2 days away. i am not okay.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 2\n\nmonday again. we persist. wednesday will come.",
   ],
-
-  // TUESDAY — so close, the hype builds
   2: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 1\n\ntomorrow. TOMORROW. i can feel it.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 1\n\nit's tuesday. wednesday is 24 hours away. try to stay calm. i cannot.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 1\n\none more sleep. one more sleep until the day. THE day.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 1\n\ntomorrow is wednesday. i have been training for this.",
   ],
-
-  // WEDNESDAY — absolute chaos, full send
   3: [
     "Day {day} - Week {week}\nIs it Wednesday? YES.\n\nIT IS WEDNESDAY MY DUDES 🐸",
     "Day {day} - Week {week}\nIs it Wednesday? YES.\n\nIT IS WEDNESDAY MY DUDES\n\n🐸🐸🐸",
     "Day {day} - Week {week}\nIs it Wednesday? YES.\n\nIT. IS. WEDNESDAY. MY. DUDES. 🐸\n\nwe made it. we always make it.",
     "Day {day} - Week {week}\nIs it Wednesday? YES.\n\nIT IS WEDNESDAY MY DUDES 🐸\n\nthe prophecy is fulfilled. see you next week.",
   ],
-
-  // THURSDAY — post-wednesday depression
   4: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 6\n\nit was wednesday yesterday. pour one out.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 6\n\nthursday. wednesday has left the building. 6 days of recovery begins now.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 6\n\npost-wednesday depression is real. we heal. we wait.",
   ],
-
-  // FRIDAY — slightly better, still not wednesday
   5: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 5\n\nit's friday. people are happy about this. i think about wednesday.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 5\n\nfriday. not wednesday. 5 days until redemption.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 5\n\nfriday is cool i guess. wednesday is cooler. 5 days.",
   ],
-
-  // SATURDAY — the waiting continues
   6: [
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 4\n\nsaturday. halfway between last wednesday and next wednesday. this is fine.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 4\n\n4 days. the frog waits. so do we.",
     "Day {day} - Week {week}\nIs it Wednesday? No.\nDays until Wednesday: 4\n\nit's saturday. wednesday is a faint light at the end of the tunnel. 4 days.",
   ],
 };
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function daysUntilWednesday(dayOfWeek) {
-  if (dayOfWeek === 3) return 0;
-  return dayOfWeek < 3 ? 3 - dayOfWeek : 7 - (dayOfWeek - 3);
-}
 
 function weekNumber(dayCount) {
   return Math.ceil(dayCount / 7);
@@ -95,7 +69,6 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// ─── Supabase counter ─────────────────────────────────────────────────────────
 async function getAndIncrementDay() {
   const { data, error } = await supabase
     .from("bot_counter")
@@ -122,7 +95,6 @@ async function getAndIncrementDay() {
   return nextDay;
 }
 
-// ─── Build & post tweet ───────────────────────────────────────────────────────
 async function postDailyTweet() {
   try {
     const dayCount = await getAndIncrementDay();
@@ -138,11 +110,10 @@ async function postDailyTweet() {
     const { data } = await twitter.v2.tweet(tweet);
     console.log(`✅ [${new Date().toISOString()}] Posted (id: ${data.id}):\n${tweet}\n`);
   } catch (err) {
-    console.error("❌ Error:", err.message ?? err);
+    console.error("❌ Full error:", JSON.stringify(err?.data ?? err?.message ?? err, null, 2));
   }
 }
 
-// ─── Scheduler: every day at 09:00 UTC ───────────────────────────────────────
 cron.schedule("0 9 * * *", () => {
   console.log("⏰ Cron fired — posting tweet...");
   postDailyTweet();
