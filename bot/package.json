@@ -1,0 +1,15 @@
+{
+  "name": "wednesday-bot",
+  "version": "1.0.0",
+  "description": "Daily X bot — Is it Wednesday? Clone of @IsWednesdayDude",
+  "main": "wednesday_bot.js",
+  "scripts": {
+    "start": "node wednesday_bot.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "twitter-api-v2": "^1.17.2"
+  }
+}
