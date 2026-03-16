@@ -239,6 +239,7 @@ MIT — free to use, modify, distribute. keep it weird.
 *it is wednesday.*
 
 </div>
+![Wednesdaymydudeswide](https://github.com/user-attachments/assets/5ad6b268-6e00-4c10-ae37-351e54bea41d)
 
 ## 🌐 Official Links
 
