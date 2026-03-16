@@ -239,3 +239,9 @@ MIT — free to use, modify, distribute. keep it weird.
 *it is wednesday.*
 
 </div>
+
+## 🌐 Official Links
+
+- 🐦 [X / Twitter](https://x.com/IsWednesdayOS)
+- 💻 [WednesdayOS Terminal](https://wednesdayos.xyz/)
+- 🐸 [Official Meme Website](https://wednesdaymydudes.xyz/)
