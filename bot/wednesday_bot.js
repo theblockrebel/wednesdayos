@@ -151,4 +151,4 @@ cron.schedule("0 9 * * *", () => {
 console.log("🐸 Wednesday Bot running. Fires daily at 09:00 UTC.");
 
 // Uncomment to test immediately on startup:
-// postDailyTweet();
+postDailyTweet();
