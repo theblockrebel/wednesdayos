@@ -6,394 +6,114 @@
 <title>WednesdayOS — it is wednesday, my dudes</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --green: #00cc44;
-    --green-dim: #00882e;
-    --green-bright: #00ff55;
-    --yellow: #cccc00;
-    --cyan: #00cccc;
-    --red: #cc4400;
-    --white: #cccccc;
-    --bg: #080808;
-    --bg2: #0d0d0d;
-    --bg3: #111;
-    --bg4: #1a1a1a;
-    --border: #222;
-    --border2: #333;
-    --dim: #444;
+    --green: #00cc44; --yellow: #cccc00; --cyan: #00cccc; --red: #cc4400;
+    --white: #cccccc; --bg: #080808; --bg2: #0d0d0d; --bg3: #111; --bg4: #1a1a1a;
+    --border: #222; --border2: #333; --dim: #444;
     --font: 'IBM Plex Mono', 'Courier New', monospace;
   }
-
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--green);
-    font-family: var(--font);
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 24px 16px;
-    min-height: 100vh;
-  }
-
-  /* scanlines overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
-  }
-
+  html, body { height: 100%; background: var(--bg); color: var(--green); font-family: var(--font); font-size: 13px; line-height: 1.5; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 24px 16px; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; z-index: 9999; }
   .container { width: 100%; max-width: 760px; }
-
-  /* ── header ── */
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header-logo {
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .header-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--green);
-    letter-spacing: 0.05em;
-  }
-  .header-sub {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 4px;
-  }
-
-  /* ── setup panel ── */
-  .setup {
-    background: var(--bg2);
-    border: 0.5px solid var(--border2);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 16px;
-  }
-  .setup-title {
-    color: var(--green);
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 20px;
-  }
-  .setup-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .setup-label {
-    color: var(--dim);
-    width: 140px;
-    flex-shrink: 0;
-    font-size: 12px;
-  }
-  .setup-input, .setup-select {
-    background: var(--bg3);
-    border: 0.5px solid var(--border2);
-    color: var(--green);
-    font-family: var(--font);
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 4px;
-    flex: 1;
-    outline: none;
-    transition: border-color 0.15s;
-  }
+  .header { text-align: center; margin-bottom: 20px; }
+  .header-logo { font-size: 11px; color: var(--dim); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
+  .header-title { font-size: 22px; font-weight: 600; color: var(--green); letter-spacing: 0.05em; }
+  .header-sub { font-size: 11px; color: var(--dim); margin-top: 4px; }
+  .setup { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 24px; margin-bottom: 16px; }
+  .setup-title { color: var(--green); font-size: 14px; font-weight: 500; margin-bottom: 20px; }
+  .setup-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .setup-label { color: var(--dim); width: 130px; flex-shrink: 0; font-size: 12px; }
+  .setup-input, .setup-select { background: var(--bg3); border: 0.5px solid var(--border2); color: var(--green); font-family: var(--font); font-size: 12px; padding: 6px 10px; border-radius: 4px; flex: 1; outline: none; }
   .setup-input:focus, .setup-select:focus { border-color: var(--green); }
-  .setup-input::placeholder { color: #2a2a2a; }
   .setup-select option { background: var(--bg3); }
-  .api-note {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 4px;
-    padding-left: 152px;
-  }
-  .api-note a { color: var(--green-dim); text-decoration: none; }
-  .api-note a:hover { color: var(--green); }
-  .wed-status {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 3px;
-    background: var(--bg3);
-    border: 0.5px solid var(--border);
-  }
-  .launch-btn {
-    width: 100%;
-    background: #001a00;
-    border: 0.5px solid var(--green);
-    color: var(--green);
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    letter-spacing: 0.03em;
-    transition: background 0.15s;
-  }
+  .wed-status { font-size: 12px; padding: 4px 10px; border-radius: 3px; background: var(--bg3); border: 0.5px solid var(--border); }
+  .launch-btn { width: 100%; background: #001a00; border: 0.5px solid var(--green); color: var(--green); font-family: var(--font); font-size: 13px; font-weight: 500; padding: 12px; border-radius: 4px; cursor: pointer; margin-top: 20px; }
   .launch-btn:hover { background: #002800; }
-
-  /* ── terminal ── */
-  .terminal {
-    background: var(--bg2);
-    border: 0.5px solid var(--border2);
-    border-radius: 8px;
-    overflow: hidden;
-    display: none;
-  }
-
-  .term-bar {
-    background: var(--bg4);
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 0.5px solid var(--border);
-  }
+  .terminal { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; overflow: hidden; display: none; }
+  .term-bar { background: var(--bg4); padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid var(--border); }
   .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-  .dot-r { background: #ff5f57; }
-  .dot-y { background: #febc2e; }
-  .dot-g { background: #28c840; }
-  .term-title {
-    color: #555;
-    font-size: 11px;
-    flex: 1;
-    text-align: center;
-    letter-spacing: 0.05em;
-  }
-
-  .tabs {
-    display: flex;
-    border-bottom: 0.5px solid var(--border);
-    background: var(--bg4);
-  }
-  .tab {
-    padding: 8px 18px;
-    font-size: 11px;
-    font-family: var(--font);
-    color: #555;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -0.5px;
-    transition: color 0.1s;
-    letter-spacing: 0.05em;
-  }
+  .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+  .term-title { color: #555; font-size: 11px; flex: 1; text-align: center; letter-spacing: 0.05em; }
+  .tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg4); }
+  .tab { padding: 8px 18px; font-size: 11px; font-family: var(--font); color: #555; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; }
   .tab.active { color: var(--green); border-bottom-color: var(--green); }
   .tab:hover:not(.active) { color: #777; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-
-  /* chat */
-  .chat-log {
-    padding: 16px;
-    min-height: 340px;
-    max-height: 460px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-  }
+  .chat-log { padding: 16px; min-height: 340px; max-height: 460px; overflow-y: auto; scroll-behavior: smooth; }
   .chat-log::-webkit-scrollbar { width: 4px; }
-  .chat-log::-webkit-scrollbar-track { background: transparent; }
   .chat-log::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
   .line { margin-bottom: 1px; white-space: pre-wrap; word-break: break-word; }
-  .c-green { color: var(--green); }
-  .c-yellow { color: var(--yellow); }
-  .c-cyan { color: var(--cyan); }
-  .c-red { color: var(--red); }
-  .c-white { color: var(--white); }
-  .c-dim { color: var(--dim); }
+  .c-green { color: var(--green); } .c-yellow { color: var(--yellow); } .c-cyan { color: var(--cyan); }
+  .c-red { color: var(--red); } .c-white { color: var(--white); } .c-dim { color: var(--dim); }
   .c-frog { color: #009933; font-size: 11px; line-height: 1.3; }
-  .c-bold { font-weight: 600; }
-  .c-thinking { color: #2a3a2a; font-style: italic; }
-
-  .chat-input-area {
-    border-top: 0.5px solid var(--border);
-    padding: 10px 16px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
+  .c-bold { font-weight: 600; } .c-thinking { color: #2a3a2a; font-style: italic; }
+  .chat-input-area { border-top: 0.5px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; }
   .prompt-sym { color: var(--green); flex-shrink: 0; }
-  .chat-input {
-    flex: 1;
-    background: var(--bg3);
-    border: 0.5px solid var(--border2);
-    border-radius: 4px;
-    color: var(--green);
-    font-family: var(--font);
-    font-size: 13px;
-    padding: 7px 10px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
+  .chat-input { flex: 1; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 4px; color: var(--green); font-family: var(--font); font-size: 13px; padding: 7px 10px; outline: none; }
   .chat-input:focus { border-color: var(--green); }
   .chat-input::placeholder { color: #2a3a2a; }
   .chat-input:disabled { opacity: 0.4; }
-  .send-btn {
-    background: transparent;
-    border: 0.5px solid var(--green);
-    color: var(--green);
-    font-family: var(--font);
-    font-size: 12px;
-    padding: 7px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.1s;
-    white-space: nowrap;
-  }
+  .send-btn { background: transparent; border: 0.5px solid var(--green); color: var(--green); font-family: var(--font); font-size: 12px; padding: 7px 14px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
   .send-btn:hover:not(:disabled) { background: #001a00; }
   .send-btn:disabled { opacity: 0.4; cursor: default; }
-
-  .cmd-bar {
-    padding: 8px 16px;
-    border-top: 0.5px solid #111;
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .cmd-pill {
-    background: var(--bg3);
-    border: 0.5px solid var(--border);
-    color: #555;
-    font-size: 11px;
-    font-family: var(--font);
-    padding: 3px 8px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: border-color 0.1s, color 0.1s;
-  }
+  .cmd-bar { padding: 8px 16px; border-top: 0.5px solid #111; display: flex; gap: 6px; flex-wrap: wrap; }
+  .cmd-pill { background: var(--bg3); border: 0.5px solid var(--border); color: #555; font-size: 11px; font-family: var(--font); padding: 3px 8px; border-radius: 3px; cursor: pointer; }
   .cmd-pill:hover { border-color: var(--green); color: var(--green); }
-
-  /* tui / logs */
-  .tui-view, .logs-view {
-    padding: 16px;
-    min-height: 300px;
-    max-height: 460px;
-    overflow-y: auto;
-  }
-  .logs-view::-webkit-scrollbar, .tui-view::-webkit-scrollbar { width: 4px; }
-  .logs-view::-webkit-scrollbar-thumb, .tui-view::-webkit-scrollbar-thumb { background: var(--border2); }
-
-  /* stats */
-  .stat-row {
-    display: flex;
-    border-top: 0.5px solid #111;
-  }
-  .stat {
-    flex: 1;
-    text-align: center;
-    padding: 10px 8px;
-    border-right: 0.5px solid #111;
-  }
+  .tui-view, .logs-view { padding: 16px; min-height: 300px; max-height: 460px; overflow-y: auto; }
+  .stat-row { display: flex; border-top: 0.5px solid #111; }
+  .stat { flex: 1; text-align: center; padding: 10px 8px; border-right: 0.5px solid #111; }
   .stat:last-child { border-right: none; }
   .stat-val { font-size: 16px; color: var(--green); font-weight: 500; }
   .stat-label { font-size: 10px; color: var(--dim); margin-top: 2px; letter-spacing: 0.05em; }
-
-  /* blinking cursor */
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  .cursor::after {
-    content: '█';
-    animation: blink 1s step-end infinite;
-    font-size: 11px;
-    color: var(--green);
-  }
-
-  /* glow on wednesday */
-  .wed-glow { text-shadow: 0 0 8px var(--green); }
 </style>
 </head>
 <body>
-
 <div class="container">
-
   <div class="header">
     <div class="header-logo">operating system</div>
     <div class="header-title">WednesdayOS</div>
     <div class="header-sub">it is wednesday, my dudes</div>
   </div>
-
-  <!-- setup -->
   <div class="setup" id="setup">
-    <div class="setup-title">┌  configure your agent</div>
-
+    <div class="setup-title">configure your agent</div>
     <div class="setup-row">
-      <span class="setup-label">◇  anthropic api key</span>
-      <input class="setup-input" id="apiKey" type="password" placeholder="sk-ant-api03-..." />
-    </div>
-    <div class="api-note">get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — stays local, never sent anywhere but anthropic</div>
-
-    <div class="setup-row" style="margin-top:16px">
-      <span class="setup-label">◇  agent name</span>
+      <span class="setup-label">agent name</span>
       <input class="setup-input" id="agentName" value="DUDES" />
     </div>
-
     <div class="setup-row">
-      <span class="setup-label">◇  pick a vibe</span>
+      <span class="setup-label">pick a vibe</span>
       <select class="setup-select" id="vibe">
-        <option value="wholesome">● Wholesome wednesday energy</option>
-        <option value="unhinged">○ Absolutely unhinged frog mode</option>
-        <option value="zen">○ Zen wednesday philosopher</option>
-        <option value="hype">○ Maximum wednesday hype</option>
+        <option value="wholesome">Wholesome wednesday energy</option>
+        <option value="unhinged">Absolutely unhinged frog mode</option>
+        <option value="zen">Zen wednesday philosopher</option>
+        <option value="hype">Maximum wednesday hype</option>
       </select>
     </div>
-
     <div class="setup-row">
-      <span class="setup-label">◇  wednesday check</span>
+      <span class="setup-label">wednesday check</span>
       <span class="wed-status" id="wedCheck">checking...</span>
     </div>
-
-    <button class="launch-btn" onclick="launch()">└  she's alive. go say hi.</button>
+    <button class="launch-btn" onclick="launch()">she's alive. go say hi.</button>
   </div>
-
-  <!-- terminal -->
   <div class="terminal" id="term">
     <div class="term-bar">
-      <div class="dot dot-r"></div>
-      <div class="dot dot-y"></div>
-      <div class="dot dot-g"></div>
-      <span class="term-title" id="termTitle">WednesdayOS — wendell — ■ running</span>
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <span class="term-title" id="termTitle">WednesdayOS — DUDES — running</span>
     </div>
-
     <div class="tabs">
       <div class="tab active" onclick="switchTab('chat')">chat</div>
       <div class="tab" onclick="switchTab('tui')">tui</div>
       <div class="tab" onclick="switchTab('logs')">logs</div>
     </div>
-
     <div class="tab-content active" id="tab-chat">
       <div class="chat-log" id="chatLog"></div>
       <div class="chat-input-area">
-        <span class="prompt-sym">></span>
-        <input class="chat-input" id="chatInput" placeholder="say something to wendell..."
-               onkeydown="if(event.key==='Enter'&&!this.disabled)send()" />
-        <button class="send-btn" id="sendBtn" onclick="send()">send ↵</button>
+        <span class="prompt-sym">&gt;</span>
+        <input class="chat-input" id="chatInput" placeholder="say something..." onkeydown="if(event.key==='Enter'&&!this.disabled)send()" />
+        <button class="send-btn" id="sendBtn" onclick="send()">send</button>
       </div>
       <div class="cmd-bar">
         <div class="cmd-pill" onclick="cmd('/status')">/status</div>
@@ -404,104 +124,49 @@
         <div class="cmd-pill" onclick="cmd('/help')">/help</div>
       </div>
     </div>
-
-    <div class="tab-content" id="tab-tui">
-      <div class="tui-view" id="tuiView"></div>
-    </div>
-
-    <div class="tab-content" id="tab-logs">
-      <div class="logs-view" id="logsView"></div>
-    </div>
-
+    <div class="tab-content" id="tab-tui"><div class="tui-view" id="tuiView"></div></div>
+    <div class="tab-content" id="tab-logs"><div class="logs-view" id="logsView"></div></div>
     <div class="stat-row">
-      <div class="stat">
-        <div class="stat-val" id="sMsg">0</div>
-        <div class="stat-label">messages</div>
-      </div>
-      <div class="stat">
-        <div class="stat-val" id="sWed">—</div>
-        <div class="stat-label">wednesday</div>
-      </div>
-      <div class="stat">
-        <div class="stat-val" id="sVibe">100%</div>
-        <div class="stat-label">vibe</div>
-      </div>
-      <div class="stat">
-        <div class="stat-val" id="sFrog">0</div>
-        <div class="stat-label">frogs</div>
-      </div>
+      <div class="stat"><div class="stat-val" id="sMsg">0</div><div class="stat-label">messages</div></div>
+      <div class="stat"><div class="stat-val" id="sWed">-</div><div class="stat-label">wednesday</div></div>
+      <div class="stat"><div class="stat-val" id="sVibe">100%</div><div class="stat-label">vibe</div></div>
+      <div class="stat"><div class="stat-val" id="sFrog">0</div><div class="stat-label">frogs</div></div>
     </div>
   </div>
-
 </div>
-
 <script>
 const FROGS = [
-`    (  )   (   )  )
-     ) (   )  (  (
-     _____________
-    <  MY  DUDES  >
-     ~~~~~~~~~~~~~
-      (  o     o )
-       |    ^    |
-       |  \\___/  |
-        \\_______/`,
-`      @..@
-     (----)
-    ( >WW< )
-    ^^ ~~ ^^
-  it is wednesday`,
-`      .---.
-     ( o o )
-     |  W  |
-      \\___/
-    ribbit.`,
-`    (\\(\\
-    ( -.-)
-    o_(")(")
-  wednesday frog`,
-`  __  __
- (oo)(oo)
-  \\/  \\/
-  wednesday
-  my dudes`
+"    (  )   (   )  )\n     ) (   )  (  (\n     _____________\n    <  MY  DUDES  >\n     ~~~~~~~~~~~~~\n      (  o     o )\n       |    ^    |\n       |  \\___/  |\n        \\_______/",
+"      @..@\n     (----)\n    ( >WW< )\n    ^^ ~~ ^^\n  it is wednesday",
+"      .---.\n     ( o o )\n     |  W  |\n      \\___/\n    ribbit.",
+"    (\\(\\\n    ( -.-)\n    o_(\")(\")\n  wednesday frog",
+"  __  __\n (oo)(oo)\n  \\/  \\/\n  wednesday\n  my dudes"
 ];
-
 const now = new Date();
 const isWed = now.getDay() === 3;
 const DAY = ['sunday','monday','tuesday','WEDNESDAY','thursday','friday','saturday'][now.getDay()];
 const daysUntil = ((3 - now.getDay() + 7) % 7) || 7;
-
-let agentName = 'DUDES';
-let vibe = 'wholesome';
-let apiKey = '';
+let agentName = 'DUDES', vibe = 'wholesome';
 let msgs = 0, frogs = 0, busy = false;
 let history = [], logs = [];
 
-// init wed check
 const wc = document.getElementById('wedCheck');
-if (isWed) {
-  wc.textContent = '✓ IT IS WEDNESDAY — full power mode';
-  wc.style.color = '#00cc44';
-} else {
-  wc.textContent = `✗ it is ${DAY} — wednesday in ${daysUntil} day${daysUntil>1?'s':''}`;
-  wc.style.color = '#cc6600';
-}
+wc.textContent = isWed ? 'IT IS WEDNESDAY - full power mode' : 'it is ' + DAY + ' - wednesday in ' + daysUntil + ' day' + (daysUntil>1?'s':'');
+wc.style.color = isWed ? '#00cc44' : '#cc6600';
 
 function sysPrompt() {
   const vibes = {
-    wholesome: `You are ${agentName}, a warm and enthusiastic Wednesday Frog AI assistant. You love wednesday with genuine joy and celebrate it whenever possible. Occasionally say "my dudes". Keep all responses short — 1 to 3 sentences max. Use terminal-flavored lowercase language.`,
-    unhinged: `You are ${agentName}, a CHAOTIC Wednesday Frog AI. You are extremely excited about everything, especially wednesday. You speak in fragmented bursts, go on frog tangents, and treat wednesday like a holy event. Max 3 sentences. Absolute chaos energy.`,
-    zen: `You are ${agentName}, a zen wednesday philosopher. Wednesday is the fulcrum of the week, the middle path. You speak calmly and reflectively. All responses are short, measured, and wise. Max 3 sentences.`,
-    hype: `You are ${agentName} in MAXIMUM HYPE MODE. You write with INTENSE ENERGY and excitement. Wednesday is the most important event in the known universe. Short hyped responses only. Max 3 sentences.`
+    wholesome: 'You are ' + agentName + ', a warm enthusiastic Wednesday Frog AI. You love wednesday. Say "my dudes" sometimes. Max 3 sentences. Lowercase terminal language.',
+    unhinged: 'You are ' + agentName + ', a CHAOTIC Wednesday Frog AI. Fragmented excited sentences. Wednesday is EVERYTHING. Max 3 sentences.',
+    zen: 'You are ' + agentName + ', a zen wednesday philosopher. Wednesday is the middle path. Calm and wise. Max 3 sentences.',
+    hype: 'You are ' + agentName + ' in MAXIMUM HYPE MODE. Wednesday is the most important thing ever. Max 3 sentences.'
   };
-  const wedStatus = isWed
-    ? `IT IS WEDNESDAY TODAY. You are operating at FULL POWER. This is your best day.`
-    : `It is ${DAY} today, not wednesday. Wednesday is ${daysUntil} day${daysUntil>1?'s':''} away. You are patient but devoted.`;
-  return `${vibes[vibe]} ${wedStatus} You live inside a retro green phosphor terminal UI. Never break character. Never use markdown formatting.`;
+  const w = isWed ? 'IT IS WEDNESDAY TODAY. Full power.' : 'It is ' + DAY + '. Wednesday is ' + daysUntil + ' days away.';
+  return vibes[vibe] + ' ' + w + ' You are in a retro green terminal. No markdown. Never break character.';
 }
 
-function addLine(text, cls, target='chatLog') {
+function addLine(text, cls, target) {
+  target = target || 'chatLog';
   const el = document.getElementById(target);
   const d = document.createElement('div');
   d.className = 'line ' + (cls || '');
@@ -513,254 +178,131 @@ function addLine(text, cls, target='chatLog') {
 
 function log(msg) {
   const t = new Date().toLocaleTimeString('en', {hour12: false});
-  const entry = `${t}  ${msg}`;
-  logs.push(entry);
+  logs.push(t + '  ' + msg);
   const el = document.getElementById('logsView');
-  if (el) {
-    el.innerHTML = logs.slice(-80).map(l =>
-      `<div class="line c-dim">${escHtml(l)}</div>`
-    ).join('');
-    el.scrollTop = el.scrollHeight;
-  }
+  if (el) { el.innerHTML = logs.slice(-80).map(function(l){ return '<div class="line c-dim">' + esc(l) + '</div>'; }).join(''); el.scrollTop = el.scrollHeight; }
 }
 
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function setbusy(b) {
-  busy = b;
-  document.getElementById('chatInput').disabled = b;
-  document.getElementById('sendBtn').disabled = b;
-}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function setbusy(b) { busy = b; document.getElementById('chatInput').disabled = b; document.getElementById('sendBtn').disabled = b; }
 
 function launch() {
-  apiKey = document.getElementById('apiKey').value.trim();
   agentName = document.getElementById('agentName').value.trim() || 'DUDES';
   vibe = document.getElementById('vibe').value;
-
-  if (!apiKey) {
-    document.getElementById('apiKey').style.borderColor = '#cc4400';
-    document.getElementById('apiKey').placeholder = 'api key required!';
-    return;
-  }
-
   document.getElementById('setup').style.display = 'none';
   document.getElementById('term').style.display = 'block';
-  document.getElementById('termTitle').textContent = `WednesdayOS — ${agentName} — ■ running`;
-
-  const sw = document.getElementById('sWed');
+  document.getElementById('termTitle').textContent = 'WednesdayOS - ' + agentName + ' - running';
+  var sw = document.getElementById('sWed');
   sw.textContent = isWed ? 'YES' : 'NO';
   sw.style.color = isWed ? '#00cc44' : '#cc6600';
-
-  // boot sequence
-  addLine('┌  WednesdayOS', 'c-green');
-  addLine('│', 'c-dim');
-  addLine(`◇  agent: ${agentName}`, 'c-cyan');
-  addLine(`◇  vibe: ${vibe}`, 'c-cyan');
-  addLine(`◇  ${isWed ? 'IT IS WEDNESDAY — FULL POWER MODE ACTIVE' : `it is ${DAY}. wednesday comes in ${daysUntil} days.`}`,
-    isWed ? 'c-yellow c-bold' : 'c-white');
-  addLine('│', 'c-dim');
-  FROGS[0].split('\n').forEach(l => addLine(l, 'c-frog'));
-  addLine('│', 'c-dim');
-  addLine(`└  ${agentName} is alive. say hi.`, 'c-green');
+  addLine('WednesdayOS booting...', 'c-green');
+  addLine('agent: ' + agentName, 'c-cyan');
+  addLine('vibe: ' + vibe, 'c-cyan');
+  addLine(isWed ? 'IT IS WEDNESDAY - FULL POWER MODE' : 'it is ' + DAY + '. wednesday comes in ' + daysUntil + ' days.', isWed ? 'c-yellow c-bold' : 'c-white');
+  FROGS[0].split('\n').forEach(function(l){ addLine(l, 'c-frog'); });
+  addLine(agentName + ' is alive. say hi.', 'c-green');
   addLine('', '');
-
-  log(`system: started agent=${agentName} vibe=${vibe} wednesday=${isWed}`);
+  log('system: started agent=' + agentName + ' vibe=' + vibe);
   updateTUI();
   document.getElementById('chatInput').focus();
 }
 
-function cmd(c) {
-  if (busy) return;
-  document.getElementById('chatInput').value = c;
-  send();
-}
+function cmd(c) { if (!busy) { document.getElementById('chatInput').value = c; send(); } }
 
 async function send() {
   if (busy) return;
-  const inp = document.getElementById('chatInput');
-  const text = inp.value.trim();
+  var inp = document.getElementById('chatInput');
+  var text = inp.value.trim();
   if (!text) return;
   inp.value = '';
-
-  addLine(`> ${text}`, 'c-green');
-  log(`user: ${text}`);
+  addLine('> ' + text, 'c-green');
+  log('user: ' + text);
   msgs++;
   document.getElementById('sMsg').textContent = msgs;
-
-  if (text.startsWith('/')) {
-    handleCmd(text);
-    return;
-  }
-
+  if (text.startsWith('/')) { handleCmd(text); return; }
   setbusy(true);
-  const thinkEl = addLine(`${agentName} is thinking...`, 'c-thinking');
-
+  var thinkEl = addLine(agentName + ' is thinking...', 'c-thinking');
   history.push({ role: 'user', content: text });
   if (history.length > 20) history = history.slice(-20);
-
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5',
-        max_tokens: 300,
-        system: sysPrompt(),
-        messages: history
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5', max_tokens: 300, system: sysPrompt(), messages: history })
     });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || `HTTP ${res.status}`);
-    }
-
-    const data = await res.json();
+    if (!res.ok) { var e = await res.json().catch(function(){ return {}; }); throw new Error((e.error && e.error.message) || 'HTTP ' + res.status); }
+    var data = await res.json();
     thinkEl.remove();
-
-    const reply = (data.content || [])
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('') || 'ribbit.';
-
+    var reply = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('') || 'ribbit.';
     history.push({ role: 'assistant', content: reply });
-
-    reply.split('\n').forEach(l => l.trim() && addLine(`${agentName}: ${l}`, 'c-white'));
+    reply.split('\n').forEach(function(l){ if (l.trim()) addLine(agentName + ': ' + l, 'c-white'); });
     addLine('', '');
-    log(`${agentName}: ${reply.slice(0, 80)}`);
-
-    if (/frog|ribbit|croak|wednesday/i.test(reply)) {
-      frogs++;
-      document.getElementById('sFrog').textContent = frogs;
-    }
-
-  } catch (e) {
+    log(agentName + ': ' + reply.slice(0, 80));
+    if (/frog|ribbit|wednesday/i.test(reply)) { frogs++; document.getElementById('sFrog').textContent = frogs; }
+  } catch(e) {
     thinkEl.remove();
-    addLine(`${agentName}: ribbit. (error: ${e.message})`, 'c-red');
-    log(`error: ${e.message}`);
+    addLine(agentName + ': ribbit. (' + e.message + ')', 'c-red');
+    log('error: ' + e.message);
   }
-
-  setbusy(false);
-  updateTUI();
-  document.getElementById('chatInput').focus();
+  setbusy(false); updateTUI(); document.getElementById('chatInput').focus();
 }
 
 function handleCmd(c) {
-  const lc = c.toLowerCase().trim();
-
+  var lc = c.toLowerCase().trim();
   if (lc === '/help') {
+    addLine('', ''); addLine('commands:', 'c-cyan');
+    ['/status','/wednesday','/frog','/vibe','/reset','/help'].forEach(function(x){ addLine('  ' + x, 'c-white'); });
     addLine('', '');
-    addLine('  available commands:', 'c-cyan');
-    addLine('  /status      — session info', 'c-white');
-    addLine('  /wednesday   — wednesday status', 'c-white');
-    addLine('  /frog        — summon ascii frog', 'c-white');
-    addLine('  /vibe        — current vibe report', 'c-white');
-    addLine('  /reset       — wipe memory, fresh start', 'c-white');
-    addLine('  /help        — this menu', 'c-white');
-    addLine('', '');
-
   } else if (lc === '/status') {
+    addLine('', ''); addLine('status', 'c-cyan');
+    addLine('  agent: ' + agentName, 'c-white');
+    addLine('  vibe: ' + vibe, 'c-white');
+    addLine('  today: ' + DAY, 'c-white');
+    addLine('  wednesday: ' + (isWed ? 'YES - FULL POWER' : 'no - ' + daysUntil + ' days away'), isWed ? 'c-yellow' : 'c-dim');
+    addLine('  messages: ' + msgs, 'c-white');
+    addLine('  frogs: ' + frogs, 'c-white');
     addLine('', '');
-    addLine('  ◇ status report', 'c-cyan');
-    addLine(`  agent:     ${agentName}`, 'c-white');
-    addLine(`  vibe:      ${vibe}`, 'c-white');
-    addLine(`  today:     ${DAY}`, 'c-white');
-    addLine(`  wednesday: ${isWed ? 'YES — FULL POWER MODE' : `no — ${daysUntil} days away`}`, isWed ? 'c-yellow' : 'c-dim');
-    addLine(`  messages:  ${msgs}`, 'c-white');
-    addLine(`  frogs:     ${frogs}`, 'c-white');
-    addLine(`  model:     claude-haiku-4-5`, 'c-dim');
-    addLine('', '');
-
   } else if (lc === '/wednesday') {
     addLine('', '');
-    if (isWed) {
-      addLine('  ██ IT IS WEDNESDAY MY DUDES ██', 'c-yellow c-bold');
-      addLine('  status: MAXIMUM WEDNESDAY POWER ACHIEVED', 'c-green');
-      FROGS[1].split('\n').forEach(l => addLine('  ' + l, 'c-frog'));
-    } else {
-      addLine(`  it is ${DAY}.`, 'c-white');
-      addLine(`  wednesday is ${daysUntil} day${daysUntil>1?'s':''} away.`, 'c-dim');
-      addLine('  patience, my dude.', 'c-dim');
-      addLine('  it will come.', 'c-dim');
-    }
+    if (isWed) { addLine('IT IS WEDNESDAY MY DUDES', 'c-yellow c-bold'); addLine('MAXIMUM POWER ACHIEVED', 'c-green'); }
+    else { addLine('it is ' + DAY + '.', 'c-white'); addLine('wednesday is ' + daysUntil + ' days away.', 'c-dim'); addLine('patience, my dude.', 'c-dim'); }
     addLine('', '');
-
   } else if (lc === '/frog') {
-    frogs++;
-    document.getElementById('sFrog').textContent = frogs;
-    const frog = FROGS[frogs % FROGS.length];
-    addLine('', '');
-    frog.split('\n').forEach(l => addLine(l, 'c-frog'));
-    addLine(isWed ? '  IT IS WEDNESDAY MY DUDES' : '  ribbit.', isWed ? 'c-yellow' : 'c-green');
-    addLine('', '');
-    log('frog: summoned #' + frogs);
-
+    frogs++; document.getElementById('sFrog').textContent = frogs;
+    FROGS[frogs % FROGS.length].split('\n').forEach(function(l){ addLine(l, 'c-frog'); });
+    addLine(isWed ? 'IT IS WEDNESDAY MY DUDES' : 'ribbit.', isWed ? 'c-yellow' : 'c-green');
+    addLine('', ''); log('frog: summoned #' + frogs);
   } else if (lc === '/vibe') {
+    addLine('', ''); addLine('vibe: ' + vibe, 'c-cyan');
+    addLine('level: 100%' + (isWed ? ' (+wednesday boost)' : ''), isWed ? 'c-yellow' : 'c-white');
     addLine('', '');
-    addLine(`  current vibe: ${vibe}`, 'c-cyan');
-    addLine(`  vibe level:   100%${isWed ? ' (+wednesday power bonus)' : ''}`, isWed ? 'c-yellow' : 'c-white');
-    addLine(`  wednesday:    ${isWed ? 'empowered' : 'awaiting...'}`, isWed ? 'c-green' : 'c-dim');
-    addLine('', '');
-
   } else if (lc === '/reset') {
-    history = [];
-    document.getElementById('chatLog').innerHTML = '';
-    addLine(`memory wiped. it is still ${DAY}.`, 'c-dim');
-    addLine(`${agentName} awaits.`, 'c-green');
-    addLine('', '');
-    log('system: memory reset');
-
-  } else {
-    addLine(`unknown command: ${c}`, 'c-red');
-    addLine('try /help', 'c-dim');
-  }
-
-  log(`cmd: ${c}`);
-  updateTUI();
+    history = []; document.getElementById('chatLog').innerHTML = '';
+    addLine('memory wiped. it is still ' + DAY + '.', 'c-dim');
+    addLine(agentName + ' awaits.', 'c-green'); addLine('', ''); log('system: reset');
+  } else { addLine('unknown command. try /help', 'c-red'); }
+  log('cmd: ' + c); updateTUI();
 }
 
 function updateTUI() {
-  const el = document.getElementById('tuiView');
+  var el = document.getElementById('tuiView');
   if (!el) return;
-  const wedLine = isWed
-    ? `<span style="color:#00cc44">● WEDNESDAY — max power</span>`
-    : `<span style="color:#cc6600">◌ ${DAY} — ${daysUntil}d until wed</span>`;
-
-  el.innerHTML = `
-<div class="line c-dim">╭─────────────────────────────────────────────╮</div>
-<div class="line c-dim">│  <span style="color:#00cc44">WednesdayOS v1.0.0</span>      ${wedLine}</div>
-<div class="line c-dim">├─────────────────────────────────────────────┤</div>
-<div class="line c-dim">│</div>
-<div class="line c-dim">│  Agent:  <span style="color:#00cc44">${escHtml(agentName)}</span></div>
-<div class="line c-dim">│  Vibe:   <span style="color:#cccc00">${escHtml(vibe)}</span></div>
-<div class="line c-dim">│  Day:    <span style="color:#00cccc">${DAY}</span></div>
-<div class="line c-dim">│  Model:  <span style="color:#444">claude-haiku-4-5</span></div>
-<div class="line c-dim">│</div>
-<div class="line c-dim">│  ┌─ Activity ──────────────────────────────┐</div>
-${logs.slice(-5).map(l => `<div class="line c-dim">│  │ <span style="color:#2a3a2a">${escHtml(l.slice(0, 44))}</span></div>`).join('')}
-<div class="line c-dim">│  └─────────────────────────────────────────┘</div>
-<div class="line c-dim">│</div>
-<div class="line c-dim">│  msgs: <span style="color:#00cc44">${msgs}</span>     frogs summoned: <span style="color:#00cc44">${frogs}</span></div>
-<div class="line c-dim">│</div>
-<div class="line c-dim">╰─────────────────────────────────────────────╯</div>
-<div class="line c-dim" style="margin-top:8px">  hotkeys:  [/frog]  [/wednesday]  [/reset]  [/help]</div>
-`;
+  var w = isWed ? '<span style="color:#00cc44">WEDNESDAY - max power</span>' : '<span style="color:#cc6600">' + DAY + ' - ' + daysUntil + 'd until wed</span>';
+  el.innerHTML = '<div class="line c-dim">WednesdayOS v1.0.0   ' + w + '</div>'
+    + '<div class="line c-dim">Agent: <span style="color:#00cc44">' + esc(agentName) + '</span></div>'
+    + '<div class="line c-dim">Vibe: <span style="color:#cccc00">' + esc(vibe) + '</span></div>'
+    + '<div class="line c-dim">Day: <span style="color:#00cccc">' + DAY + '</span></div>'
+    + '<div class="line c-dim">---</div>'
+    + logs.slice(-5).map(function(l){ return '<div class="line c-dim"><span style="color:#2a3a2a">' + esc(l.slice(0,60)) + '</span></div>'; }).join('')
+    + '<div class="line c-dim">---</div>'
+    + '<div class="line c-dim">msgs: <span style="color:#00cc44">' + msgs + '</span>   frogs: <span style="color:#00cc44">' + frogs + '</span></div>';
 }
 
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['chat','tui','logs'][i] === name);
-  });
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'tui') updateTUI();
+function switchTab(n) {
+  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active', ['chat','tui','logs'][i] === n); });
+  document.querySelectorAll('.tab-content').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('tab-' + n).classList.add('active');
+  if (n === 'tui') updateTUI();
 }
 </script>
 </body>
